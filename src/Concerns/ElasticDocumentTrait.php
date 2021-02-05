@@ -30,10 +30,10 @@ trait ElasticDocumentTrait
     /**
      * @NormalizeGet()
      * @param string $index
-     * @param int $id
+     * @param string $id
      * @return array
      */
-    public function get(string $index, int $id):array
+    public function getDocument(string $index, string $id):array
     {
         $parameters = [
             'index' => $index,
@@ -48,7 +48,7 @@ trait ElasticDocumentTrait
      * @param string $index
      * @return array
      */
-    public function getAll(string $index):array
+    public function getMultiDocuments(string $index):array
     {
         $parameters = [
             'index' => $index,
@@ -59,16 +59,50 @@ trait ElasticDocumentTrait
                 ]
             ]
         ];
+
         return $this->model->search($parameters);
     }
 
+    /**
+     * @param ElasticsearchDocumentBean $bean
+     * @return array
+     */
+    public function insertDocument(ElasticsearchDocumentBean $bean): array
+    {
+        $parameters = [
+            'index' => $bean->index,
+            'id' => $bean->document_id,
+            'body' => [
+                filterBean($bean, ['index', 'document_id'])
+            ]
+        ];
+
+        return $this->model->index($parameters);
+    }
+
+    /**
+     * @param ElasticsearchDocumentBean $bean
+     * @return array
+     */
+    public function updateDocument(ElasticsearchDocumentBean $bean): array
+    {
+        $parameters = [
+            'index' => $bean->index,
+            'id' => $bean->document_id,
+            'body' => [
+                filterBean($bean, ['index', 'document_id'])
+            ]
+        ];
+
+        return $this->model->update($parameters);
+    }
 
     /**
      * @NormalizeWrite()
      * @param ElasticsearchIndexBean $bean
      * @return array|bool
      */
-    public function insert(ElasticsearchIndexBean $bean)
+    public function insertDocuments(ElasticsearchIndexBean $bean)
     {
         $parameters = [
             'index' => $bean->index ?? current($bean->documents)->index,
@@ -92,7 +126,7 @@ trait ElasticDocumentTrait
      * @param ElasticsearchIndexBean $bean
      * @return array|bool
      */
-    public function update(ElasticsearchIndexBean $bean)
+    public function updateDocuments(ElasticsearchIndexBean $bean)
     {
         $parameters = [
             'index' => $bean->index ?? current($bean->documents)->index,
@@ -113,10 +147,10 @@ trait ElasticDocumentTrait
 
     /**
      * @param string $index
-     * @param int $id
+     * @param string $id
      * @return bool
      */
-    public function existsDocument(string $index, int $id):bool
+    public function existsDocument(string $index, string $id):bool
     {
         return $this->model->existsSource([
             'index' => $index,
@@ -127,10 +161,10 @@ trait ElasticDocumentTrait
     /**
      * @NormalizeWrite()
      * @param string $index
-     * @param int $id
+     * @param string $id
      * @return array|bool
      */
-    public function delete(string $index, int $id)
+    public function deleteDocument(string $index, string $id)
     {
         return $this->model->delete([
             'index' => $index,

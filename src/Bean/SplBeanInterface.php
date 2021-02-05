@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 
 
-namespace Nashgao\Elasticsearch\QueryBuilder\Bean;
+namespace Nashgao\Elasticsearch\QueryBuilde\Bean;
 
 
 interface SplBeanInterface
