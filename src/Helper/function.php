@@ -27,3 +27,20 @@ if (! function_exists('filterBean')) {
         return $bean->toArray(array_keys(array_diff_key($bean->toArrayWithMapping(), array_fill_keys($filter, null))), $bean::FILTER_NOT_NULL);
     }
 }
+
+
+if (! function_exists('array_filter_null_value')) {
+    /**
+     * @param array $array
+     * @return array
+     */
+    function array_filter_null_value(array $array): array
+    {
+        return array_filter(
+            $array,
+            function($item) {
+                return !is_null($item);
+            }
+        );
+    }
+}

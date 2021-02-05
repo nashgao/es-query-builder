@@ -16,7 +16,8 @@ declare(strict_types=1);
 
 namespace Nashgao\Elasticsearch\QueryBuilder\Bean;
 
-use Nashgao\MySQL\QueryBuilder\Bean\SplBean;
+
+use Nashgao\Elasticsearch\QueryBuilde\Bean\SplBean;
 
 class ElasticsearchDocumentBean extends SplBean
 {

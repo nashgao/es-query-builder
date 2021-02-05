@@ -26,35 +26,40 @@ use Nashgao\Elasticsearch\QueryBuilder\Exception\ElasticsearchException;
 use Swoole\Coroutine;
 
 /**
+ * default namespace
  * @method array search(array $param):array search
- *
  * @method array index (array $param) single document indexing
  * @method array get(array $param) get specific document
- * @method array create(array $param,string $indices) indices -> create index/mapping
  * @method array update(array $param) update document
- * @method array delete(array $param, string $indices = '') indices -> delete index
- * @method bool exists(array $param, string $indices) indices -> check if an index exists
- * @method bool existsAlias(array $param, string $indices) indices -> check if an alias exists
  * @method bool existsSource(array $param) indices -> check if document exists
- * @method array getSettings(array $param, string $indices) indices -> get index setting
- * @method array getMapping(array $param, string $indices) indices -> get index mapping
- * @method array getFieldMapping(array $param, string $indices)
  * @method array bulk(array $data) bulk operations
- * @method array updateAliases(array $param,string $indices)
- * @method array deleteAlias(array $param,string $indices)
- *
- * @method array getPipeline(array $param, string $indices) ingest -> get current pipeline
- * @method array putPipeline(array $param, string $indices) ingest -> create pipeline
- * @method array simulate(array $param, string $indices) ingest -> simulate a pipeline
- *
  * @method array reindex(array $param)
  *
- * cat api
+ * delete method under default namespace and indices namespace
+ * @method array delete(array $param, string $indices = '') indices -> delete index
+ *
+ * indices namespace api
+ * @method array create(array $param,string $indices) indices -> create index/mapping
+ * @method bool exists(array $param, string $indices) indices -> check if an index exists
+ * @method array getMapping(array $param, string $indices) indices -> get index mapping
+ * @method array getFieldMapping(array $param, string $indices)
+ * @method array getSettings(array $param, string $indices) indices -> get index setting
+ * @method array updateAliases(array $param,string $indices)
+ * @method array deleteAlias(array $param,string $indices)
+ * @method bool existsAlias(array $param, string $indices) indices -> check if an alias exists
+ *
+ * ingest namespace api
+ * @method array getPipeline(array $param, string $indices) ingest -> get current pipeline
+ * @method array putPipeline(array $param, string $indices) ingest -> create pipeline
+ * @method array deletePipeline(array $param, string $indices) ingest -> delete pipeline
+ * @method array simulate(array $param, string $indices) ingest -> simulate a pipeline
+ *
+ * cat namespace api
  * @method array indices(array $param,string $indices)
- * @method count(array $param,string $indices)
- * @method aliases(array $param, string $indices)
+ * @method array count(array $param,string $indices)
+ * @method array aliases(array $param, string $indices)
  */
-abstract class Elasticsearch
+abstract class ElasticsearchModel
 {
     /**
      * @var Client
@@ -71,7 +76,6 @@ abstract class Elasticsearch
      * @var string
      */
     public string $connection = 'default';
-
 
     /**
      * @var array
@@ -105,7 +109,7 @@ abstract class Elasticsearch
 
         $config = $this->config->get($this->connection);
         $this->client = $builder->setHosts([
-            join(":", $config['endpoint'], $config['port'])
+            join(":", [$config['endpoint'], $config['port']])
         ])->build();
     }
 
@@ -121,7 +125,7 @@ abstract class Elasticsearch
      * map the function method
      * @param string name
      * @param mixed arguments
-     * @return array|mixed
+     * @return array
      */
     public function __call(string $name, $arguments): array
     {

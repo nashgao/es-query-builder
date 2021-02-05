@@ -17,35 +17,35 @@ namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
 
 use Elasticsearch\Namespaces\IndicesNamespace;
-use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
+use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 
 /**
- * @property Elasticsearch $model
+ * @property ElasticsearchModel $model
  */
 trait ElasticMappingTrait
 {
     /**
      * @param string $index
-     * @param string $indices
+     * @param string $namespace
      * @return array
      */
-    public function getMapping(string $index, string $indices = IndicesNamespace::class):array
+    public function getMapping(string $index, string $namespace = IndicesNamespace::class):array
     {
-        return $this->model->getMapping(['index' => $index],$indices);
+        return $this->model->getMapping(['index' => $index],$namespace);
     }
 
     /**
      * @param string $field
      * @param string|null $index
-     * @param string $indices
+     * @param string $namespace
      * @return array
      */
-    public function getFieldMapping(string $field, string $index = null, string $indices = IndicesNamespace::class):array
+    public function getFieldMapping(string $field, string $index = null, string $namespace = IndicesNamespace::class):array
     {
         $query['field'] = $field;
         if (isset($index))
             $query['index'] = $index;
-        return $this->model->getFieldMapping($query,$indices);
+        return $this->model->getFieldMapping($query,$namespace);
     }
 
 

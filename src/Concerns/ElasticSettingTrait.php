@@ -17,26 +17,25 @@ namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
 
 use Elasticsearch\Namespaces\IndicesNamespace;
-use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
+use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 
 /**
- * @property Elasticsearch $model
-
+ * @property ElasticsearchModel $model
  */
 trait ElasticSettingTrait
 {
     /**
      * @param string $index
      * @param string|null $name
-     * @param string $indices
+     * @param string $namespace
      * @return array
      */
-    public function getSetting(string $index, string $name = null, string $indices = IndicesNamespace::class):array
+    public function getSetting(string $index, string $name = null, string $namespace = IndicesNamespace::class):array
     {
         $query = ['index' => $index];
         if (isset($name))
             $query['name'] = $name;
-        return $this->model->getSettings($query, $indices);
+        return $this->model->getSettings($query, $namespace);
     }
 
 }

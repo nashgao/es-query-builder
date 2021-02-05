@@ -18,43 +18,43 @@ namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\Acknowledged;
 use Elasticsearch\Namespaces\IndicesNamespace;
-use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
+use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 
 /**
- * @property Elasticsearch $model
+ * @property ElasticsearchModel $model
  */
 trait ElasticIndexTrait
 {
     /**
      * check if an index exists
      * @param string $index
-     * @param string $indices
+     * @param string $namespace
      * @return bool
      */
-    public function existsIndex(string $index, string $indices = IndicesNamespace::class): bool
+    public function existsIndex(string $index, string $namespace = IndicesNamespace::class): bool
     {
-        return $this->model->exists(['index' => $index], $indices);
+        return $this->model->exists(['index' => $index], $namespace);
     }
 
     /**
      * create index and mapping
      * @Acknowledged()
      * @param string $index
-     * @param string $indices
+     * @param string $namespace
      * @return bool|array
      */
-    public function createIndex(string $index, string $indices = IndicesNamespace::class)
+    public function createIndex(string $index, string $namespace = IndicesNamespace::class)
     {
-        return $this->model->create(['index' => $index],$indices);
+        return $this->model->create(['index' => $index], $namespace);
     }
 
     /**
      * @Acknowledged()
      * @param string $index
-     * @param string $indices
+     * @param string $namespace
      * @return bool|array
      */
-    public function createIndexWithMapping(string $index, string $indices = IndicesNamespace::class)
+    public function createIndexWithMapping(string $index, string $namespace = IndicesNamespace::class)
     {
         return false;
     }
@@ -62,11 +62,11 @@ trait ElasticIndexTrait
     /**
      * @Acknowledged()
      * @param string $index
-     * @param string $indices
+     * @param string $namespace
      * @return bool|array
      */
-    public function deleteIndex(string $index, string $indices = IndicesNamespace::class)
+    public function deleteIndex(string $index, string $namespace = IndicesNamespace::class)
     {
-        return $this->model->delete(['index' => $index],$indices);
+        return $this->model->delete(['index' => $index], $namespace);
     }
 }

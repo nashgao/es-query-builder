@@ -16,14 +16,14 @@ declare(strict_types=1);
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
 
-use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
+use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeGet;
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeWrite;
 use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticsearchIndexBean;
 use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticsearchDocumentBean;
 
 /**
- * @property Elasticsearch $model
+ * @property ElasticsearchModel $model
  */
 trait ElasticDocumentTrait
 {
