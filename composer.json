@@ -1,0 +1,19 @@
+{
+    "name": "nash/es-query-builder",
+    "authors": [
+        {
+            "name": "nashgao",
+            "email": "nashgao1992@gmail.com"
+        }
+    ],
+    "require": {
+        "hyperf/di": "~2.1.0",
+        "hyperf/config": "~2.1.0",
+        "elasticsearch/elasticsearch": "~7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nashgao\\Elasticsearch\\QueryBuilder\\": "src"
+        }
+    }
+}
