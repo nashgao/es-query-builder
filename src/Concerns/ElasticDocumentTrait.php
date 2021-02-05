@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
- * @project elasticsearch-proxy-pool
+
  * @create Created on 2020/10/30 下午4:44
  * @author Nash Gao
  */
@@ -18,11 +18,14 @@ namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
 use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeGet;
+use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeWrite;
+use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticsearchIndexBean;
+use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticsearchDocumentBean;
 
 /**
  * @property Elasticsearch $model
  */
-trait DaoDocumentTrait
+trait ElasticDocumentTrait
 {
     /**
      * @NormalizeGet()
@@ -62,14 +65,14 @@ trait DaoDocumentTrait
 
     /**
      * @NormalizeWrite()
-     * @param ElasticsearchBean $bean
+     * @param ElasticsearchIndexBean $bean
      * @return array|bool
      */
-    public function insert(ElasticsearchBean $bean)
+    public function insert(ElasticsearchIndexBean $bean)
     {
         $parameters = [
-            'index' => $bean->index ?? current($bean->data)->index,
-            'id' => $bean->document_id ?? current($bean->data)->document_id,
+            'index' => $bean->index ?? current($bean->documents)->index,
+            'id' => $bean->document_id ?? current($bean->documents)->document_id,
             'body' => []
         ];
 
@@ -77,8 +80,8 @@ trait DaoDocumentTrait
          * @var                           $key
          * @var ElasticsearchDocumentBean $value
          */
-        foreach ($bean->data as $key => $value){
-            $parameters['body'] = array_filter_null_value(filterBean($value, ['index','document_id', 'action']));
+        foreach ($bean->documents as $key => $value){
+            $parameters['body'] = array_filter_null_value($value->toArray());
         }
 
         return $this->model->index($parameters);
@@ -86,14 +89,14 @@ trait DaoDocumentTrait
 
     /**
      * @NormalizeWrite()
-     * @param ElasticsearchBean $bean
+     * @param ElasticsearchIndexBean $bean
      * @return array|bool
      */
-    public function update(ElasticsearchBean $bean)
+    public function update(ElasticsearchIndexBean $bean)
     {
         $parameters = [
-            'index' => $bean->index ?? current($bean->data)->index,
-            'id' => $bean->document_id ?? current($bean->data)->document_id,
+            'index' => $bean->index ?? current($bean->documents)->index,
+            'id' => $bean->document_id ?? current($bean->documents)->document_id,
             'body' => []
         ];
 
@@ -101,8 +104,8 @@ trait DaoDocumentTrait
          * @var                           $key
          * @var ElasticsearchDocumentBean $value
          */
-        foreach ($bean->data as $key => $value){
-            $parameters['body']['doc'] = array_filter_null_value(filterBean($value, ['index','document_id','action']));
+        foreach ($bean->documents as $key => $value){
+            $parameters['body']['doc'] = array_filter_null_value($value->toArray());
         }
 
         return $this->model->update($parameters);

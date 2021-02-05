@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
- * @project elasticsearch-proxy-pool
+
  * @create Created on 2020/10/30 下午2:15
  * @author Nash Gao
  */

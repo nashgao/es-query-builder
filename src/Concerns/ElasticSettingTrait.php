@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
- * @project elasticsearch-proxy-pool
+
  * @create Created on 2020/10/30 下午4:45
  * @author Nash Gao
  */
@@ -21,32 +21,22 @@ use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
 
 /**
  * @property Elasticsearch $model
+
  */
-trait DaoMappingTrait
+trait ElasticSettingTrait
 {
     /**
      * @param string $index
+     * @param string|null $name
      * @param string $indices
      * @return array
      */
-    public function getMapping(string $index, string $indices = IndicesNamespace::class):array
+    public function getSetting(string $index, string $name = null, string $indices = IndicesNamespace::class):array
     {
-        return $this->model->getMapping(['index' => $index],$indices);
+        $query = ['index' => $index];
+        if (isset($name))
+            $query['name'] = $name;
+        return $this->model->getSettings($query, $indices);
     }
-
-    /**
-     * @param string $field
-     * @param string|null $index
-     * @param string $indices
-     * @return array
-     */
-    public function getFieldMapping(string $field, string $index = null, string $indices = IndicesNamespace::class):array
-    {
-        $query['field'] = $field;
-        if (isset($index))
-            $query['index'] = $index;
-        return $this->model->getFieldMapping($query,$indices);
-    }
-
 
 }

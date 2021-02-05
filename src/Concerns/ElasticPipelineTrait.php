@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
- * @project elasticsearch-proxy-pool
+
  * @create Created on 2020/10/30 下午4:50
  * @author Nash Gao
  */
@@ -21,7 +21,7 @@ use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
 /**
  * @property Elasticsearch $model
  */
-class DaoPipelineTrait
+class ElasticPipelineTrait
 {
     /**
      * @param array $parameters

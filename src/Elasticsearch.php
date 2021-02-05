@@ -70,17 +70,7 @@ abstract class Elasticsearch
     /**
      * @var string
      */
-    public string $clientType = 'mall';
-
-    /**
-     * @var string
-     */
-    public string $indexType = 'mall';
-
-    /**
-     * @var string
-     */
-    public string $connection = 'connection';
+    public string $connection = 'default';
 
 
     /**
@@ -97,22 +87,26 @@ abstract class Elasticsearch
 
     /**
      * @param ConfigInterface $config
-     * @param int $max_conn
      */
-    public function __construct(ConfigInterface $config, int $max_conn = 20)
+    public function __construct(ConfigInterface $config)
     {
         $this->config = $config;
+        $configurations = $this->config->get($this->connection);
+
         $builder = ClientBuilder::create();
         if (Coroutine::getCid() > 0) {
             $handler = make(PoolHandler::class, [
                 'option' => [
-                    'max_connections' => $max_conn,
+                    'max_connections' => $configurations['max_con'],
                 ],
             ]);
             $builder->setHandler($handler);
         }
 
-        $this->client = $builder->setHosts([env('ES',$this->config->get("elasticsearch.$this->clientType.$this->indexType.$this->connection"))])->build();
+        $config = $this->config->get($this->connection);
+        $this->client = $builder->setHosts([
+            join(":", $config['endpoint'], $config['port'])
+        ])->build();
     }
 
     /**
@@ -131,7 +125,7 @@ abstract class Elasticsearch
      */
     public function __call(string $name, $arguments): array
     {
-        return ( function () use ($name,$arguments) {
+        return ( function () use ( $name, $arguments ) {
             // if the argument has more than 1 element, which means the elasticsearch client needs the indices to execute
             return count ($arguments) < 2 ? (function () use ($name, $arguments){
                 return $this->client->$name(...$arguments);

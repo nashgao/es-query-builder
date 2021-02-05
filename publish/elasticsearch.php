@@ -5,23 +5,20 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
-
- * @create Created on 2020/10/30 下午2:14
+ * @project composer
+ * @create Created on 2021/2/5 下午4:17
  * @author Nash Gao
  */
 
 declare(strict_types=1);
 
 
-namespace Nashgao\Elasticsearch\QueryBuilder\Annotation;
+return [
+    'default' => [
+        'endpoint' => 'localhost',
+        'port' => '9200',
+        'max_con' => 20,
+        'max_doc' => 10000,
+    ],
 
-use Hyperf\Di\Annotation\AbstractAnnotation;
-
-/**
- * @Annotation()
- * @Target("METHOD")
- */
-class Acknowledged extends AbstractAnnotation
-{
-
-}
+];

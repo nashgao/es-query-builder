@@ -5,23 +5,21 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
-
- * @create Created on 2020/10/30 下午2:14
+ * @project composer
+ * @create Created on 2021/1/31 下午1:27
  * @author Nash Gao
  */
 
 declare(strict_types=1);
 
 
-namespace Nashgao\Elasticsearch\QueryBuilder\Annotation;
 
-use Hyperf\Di\Annotation\AbstractAnnotation;
+namespace Nashgao\Elasticsearch\QueryBuilder\Bean;
 
-/**
- * @Annotation()
- * @Target("METHOD")
- */
-class Acknowledged extends AbstractAnnotation
+
+interface SplBeanInterface
 {
-
+    public function issetPrimaryKey():bool;
+    public function getPrimaryKey();
+    public function toArray(array $columns = null, $filter = null);
 }

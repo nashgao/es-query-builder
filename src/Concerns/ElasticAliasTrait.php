@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
- * @project elasticsearch-proxy-pool
+
  * @create Created on 2020/10/30 下午4:43
  * @author Nash Gao
  */
@@ -23,7 +23,7 @@ use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
 /**
  * @property Elasticsearch $model
  */
-trait DaoAliasTrait
+trait ElasticAliasTrait
 {
     /**
      * @param string $index
@@ -31,7 +31,7 @@ trait DaoAliasTrait
      * @param string $indices
      * @return bool
      */
-    public function existsAlias(string $index, string $name , string $indices = IndicesNamespace::class):bool
+    public function existsAlias(string $index, string $name, string $indices = IndicesNamespace::class):bool
     {
         $query = [
             'index' => $index,
@@ -74,7 +74,7 @@ trait DaoAliasTrait
             'index' => $index,
             'name' => $name
         ];
-        // check if the name exists
+        
         return $this->model->deleteAlias($query,$indices);
     }
 

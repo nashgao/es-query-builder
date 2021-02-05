@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
- * @project elasticsearch-proxy-pool
+
  * @create Created on 2020/10/30 下午4:44
  * @author Nash Gao
  */
@@ -23,7 +23,7 @@ use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
 /**
  * @property Elasticsearch $model
  */
-trait DaoIndexTrait
+trait ElasticIndexTrait
 {
     /**
      * check if an index exists

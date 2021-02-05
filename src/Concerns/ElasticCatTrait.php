@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Nash Gao <nash@spaceplaform.co>
  * @organization Space Platform
- * @project elasticsearch-proxy-pool
+
  * @create Created on 2020/10/30 下午4:45
  * @author Nash Gao
  */
@@ -16,26 +16,33 @@ declare(strict_types=1);
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
 
-use Elasticsearch\Namespaces\IndicesNamespace;
+use Elasticsearch\Namespaces\CatNamespace;
 use Nashgao\Elasticsearch\QueryBuilder\Elasticsearch;
 
 /**
  * @property Elasticsearch $model
  */
-trait DaoSettingTrait
+trait ElasticCatTrait
 {
     /**
+     * if the param is empty ,then it's cat for all indexes
      * @param string $index
-     * @param string|null $name
      * @param string $indices
      * @return array
      */
-    public function getSetting(string $index, string $name = null, string $indices = IndicesNamespace::class):array
+    public function catIndices(string $index, string $indices = CatNamespace::class):array
     {
-        $query = ['index' => $index];
-        if (isset($name))
-            $query['name'] = $name;
-        return $this->model->getSettings($query, $indices);
+        return $this->model->indices(['index' => $index], $indices);
+    }
+
+    /**
+     * @param string $name
+     * @param string $indices
+     * @return array
+     */
+    public function catAlias(string $name, string $indices = CatNamespace::class):array
+    {
+        return $this->model->aliases(['name' => $name],$indices);
     }
 
 }
