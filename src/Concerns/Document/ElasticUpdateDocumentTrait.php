@@ -16,6 +16,7 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticUpdateDocumentTrait
 {
     /**
+     * @NormalizeWrite()
      * @param ElasticBean $bean
      * @return array
      */
@@ -23,9 +24,9 @@ trait ElasticUpdateDocumentTrait
     {
         $parameters = [
             'index' => $bean->index,
-            'id' => $bean->document_id,
+            'id' => $bean->id,
             'body' => [
-                'doc' => arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'document_id']))
+                'doc' => arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'id']))
             ]
         ];
 
@@ -34,26 +35,28 @@ trait ElasticUpdateDocumentTrait
 
 
     /**
-     * @NormalizeWrite()
      * @param array $beans
      * @return array|bool
      */
     public function bulkUpdateDocument(array $beans)
     {
         $bulkContainer = [];
-        for ($counter = 0; $counter < count($beans); $counter++) {
-            if (! $beans[$counter] instanceof ElasticBean) {
+        foreach ($beans as $bean) {
+            if (! $bean instanceof ElasticBean) {
                 continue;
             }
 
-            $bulkContainer['body'][Bulk::UPDATE] = filterElasticBean($beans[$counter]);
+            $bulkContainer['body'][] = [
+                Bulk::UPDATE => [
+                    '_index' => $bean->index,
+                    '_id' => $bean->id
+                ]
+            ];
 
-            if ($counter % 1000 === 0) {
-                $response = $this->model->bulk($bulkContainer);
-                $bulkContainer = []; // reset container
-                unset($response);
-            }
+            $bulkContainer['body'][] = filterElasticBean($bean);
         }
+
+        var_dump($bulkContainer);
 
         if (! empty($bulkContainer['body'])) {
             $this->model->bulk($bulkContainer);

@@ -8,7 +8,7 @@ class ElasticBean extends SplBean
 {
     public string $index;
     public string $alias;
-    public string $document_id;
+    public string $id;
 
     /**
      * @param string $index
@@ -31,12 +31,12 @@ class ElasticBean extends SplBean
     }
 
     /**
-     * @param string $document_id
+     * @param string $id
      * @return ElasticBean
      */
-    public function setDocumentId(string $document_id): ElasticBean
+    public function setId(string $id): ElasticBean
     {
-        $this->document_id = $document_id;
+        $this->id = $id;
         return $this;
     }
 
@@ -45,7 +45,7 @@ class ElasticBean extends SplBean
      */
     public function issetPrimaryKey(): bool
     {
-        return isset($this->document_id);
+        return isset($this->id);
     }
 
     /**
@@ -53,6 +53,6 @@ class ElasticBean extends SplBean
      */
     public function getPrimaryKey(): string
     {
-        return $this->document_id;
+        return $this->id;
     }
 }

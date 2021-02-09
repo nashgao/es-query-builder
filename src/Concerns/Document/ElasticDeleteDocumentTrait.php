@@ -24,35 +24,31 @@ trait ElasticDeleteDocumentTrait
     {
         return $this->model->delete([
             'index' => $bean->index ?? $bean->alias,
-            'id' => $bean->document_id
+            'id' => $bean->id
         ]);
     }
 
     /**
      * @param array $beans
      */
-    public function bulkDelete(array $beans)
+    public function bulkDeleteDocument(array $beans)
     {
         $bulkContainer = [];
-        for ($counter = 0; $counter < count($beans); $counter++) {
-            if (! $beans[$counter] instanceof ElasticBean) {
+        foreach ($beans as $bean) {
+            if (! $bean instanceof ElasticBean) {
                 continue;
             }
 
-            $bulkContainer['body'][Bulk::DELETE] = [
-                'index' => $beans[$counter]->index ?? $beans[$counter]->alias,
-                'id' => $beans[$counter]->document_id
+            $bulkContainer['body'][] = [
+                Bulk::DELETE => [
+                    '_index' => $bean->index ?? $bean->alias,
+                    '_id' => $bean->id
+                ]
             ];
-
-            if ($counter % 1000 === 0) {
-                $response = $this->model->bulk($bulkContainer);
-                $bulkContainer = []; // reset container
-                unset($response);
-            }
         }
 
         if (! empty($bulkContainer['body'])) {
-            $this->model->bulk($bulkContainer);
+            return $this->model->bulk($bulkContainer);
         }
     }
 }

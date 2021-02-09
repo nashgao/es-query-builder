@@ -16,6 +16,7 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticInsertDocumentTrait
 {
     /**
+     * @NormalizeWrite()
      * @param ElasticBean $bean
      * @return array
      */
@@ -23,7 +24,7 @@ trait ElasticInsertDocumentTrait
     {
         $parameters = [
             'index' => $bean->index ?? $bean->alias,
-            'id' => $bean->document_id,
+            'id' => $bean->id,
             'body' => filterElasticBean($bean)
         ];
 
@@ -32,29 +33,29 @@ trait ElasticInsertDocumentTrait
 
 
     /**
-     * @NormalizeWrite()
      * @param array $beans
      * @return array|bool
      */
     public function bulkInsertDocument(array $beans)
     {
         $bulkContainer = [];
-        for ($counter = 0; $counter < count($beans); $counter++) {
-            if (! $beans[$counter] instanceof ElasticBean) {
+        foreach ($beans as $bean) {
+            if (! $bean instanceof ElasticBean) {
                 continue;
             }
 
-            $bulkContainer['body'][Bulk::INDEX] = filterElasticBean($beans[$counter]);
+            $bulkContainer['body'][] = [
+                Bulk::INDEX => [
+                    '_index' => $bean->index,
+                    '_id' => $bean->id
+                ]
+            ];
 
-            if ($counter % 1000 === 0) {
-                $response = $this->model->bulk($bulkContainer);
-                $bulkContainer = []; // reset container
-                unset($response);
-            }
+            $bulkContainer['body'][] = filterElasticBean($bean);
         }
 
         if (! empty($bulkContainer['body'])) {
-            $this->model->bulk($bulkContainer);
+            return $this->model->bulk($bulkContainer);
         }
     }
 }

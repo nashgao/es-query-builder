@@ -23,7 +23,7 @@ trait ElasticGetDocumentTrait
     {
         return $this->model->existsSource([
             'index' => $bean->index ?? $bean->alias,
-            'id' => $bean->document_id
+            'id' => $bean->id
         ]);
     }
 
@@ -36,7 +36,7 @@ trait ElasticGetDocumentTrait
     {
         $parameters = [
             'index' => $bean->index ?? $bean->alias,
-            'id' => $bean->document_id
+            'id' => $bean->id
         ];
 
         return $this->model->get($parameters);

@@ -43,6 +43,6 @@ if (! function_exists('filterElasticBean')) {
      */
     function filterElasticBean(ElasticBean $bean): array
     {
-        return arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'document_id']));
+        return arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'id']));
     }
 }
