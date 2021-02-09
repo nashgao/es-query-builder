@@ -1,20 +1,9 @@
 <?php
-/**
- * Copyright (C) SPACE Platform PTY LTD - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Nash Gao <nash@spaceplaform.co>
- * @organization Space Platform
-
- * @create Created on 2020/10/30 下午4:43
- * @author Nash Gao
- */
 
 declare(strict_types=1);
 
 
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
-
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\Acknowledged;
 use Elasticsearch\Namespaces\IndicesNamespace;
@@ -38,7 +27,7 @@ trait ElasticAliasTrait
             'name' => $name
         ];
 
-        return $this->model->existsAlias($query,$namespace);
+        return $this->model->existsAlias($query, $namespace);
     }
 
     /**
@@ -58,7 +47,7 @@ trait ElasticAliasTrait
                 ]
             ]
         ];
-        return $this->model->updateAliases($param,$namespace);
+        return $this->model->updateAliases($param, $namespace);
     }
 
     /**
@@ -75,8 +64,6 @@ trait ElasticAliasTrait
             'name' => $name
         ];
         
-        return $this->model->deleteAlias($query,$namespace);
+        return $this->model->deleteAlias($query, $namespace);
     }
-
 }
-

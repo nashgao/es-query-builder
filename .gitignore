@@ -7,3 +7,4 @@ config
 .php_cs.cache
 runtime
 hyperf-skeleton
+.phpunit.result.cache

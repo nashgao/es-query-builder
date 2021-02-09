@@ -1,17 +1,12 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
- */
+
 namespace Nashgao\Test\Cases;
 
 
+use Hyperf\Utils\ApplicationContext;
+use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -20,10 +15,12 @@ use Psr\Container\ContainerInterface;
  */
 abstract class AbstractTest extends TestCase
 {
-    protected ContainerInterface $container;
+    public ContainerInterface $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
-        $this->container = $container;
+        parent::__construct($name, $data, $dataName);
+        $this->container = ApplicationContext::getContainer();
+
     }
 }

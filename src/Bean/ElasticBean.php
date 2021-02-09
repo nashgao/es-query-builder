@@ -1,23 +1,8 @@
 <?php
-/**
- * Copyright (C) SPACE Platform PTY LTD - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Nash Gao <nash@spaceplaform.co>
- * @organization Space Platform
- * @project composer
- * @create Created on 2021/2/5 下午4:57
- * @author Nash Gao
- */
 
 declare(strict_types=1);
 
-
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Bean;
-
-
-use Nashgao\Elasticsearch\QueryBuilde\Bean\SplBean;
 
 class ElasticBean extends SplBean
 {
@@ -27,26 +12,32 @@ class ElasticBean extends SplBean
 
     /**
      * @param string $index
+     * @return ElasticBean
      */
-    public function setIndex(string $index): void
+    public function setIndex(string $index): ElasticBean
     {
         $this->index = $index;
+        return $this;
     }
 
     /**
      * @param string $alias
+     * @return ElasticBean
      */
-    public function setAlias(string $alias): void
+    public function setAlias(string $alias): ElasticBean
     {
         $this->alias = $alias;
+        return $this;
     }
 
     /**
      * @param string $document_id
+     * @return ElasticBean
      */
-    public function setDocumentId(string $document_id): void
+    public function setDocumentId(string $document_id): ElasticBean
     {
         $this->document_id = $document_id;
+        return $this;
     }
 
     /**

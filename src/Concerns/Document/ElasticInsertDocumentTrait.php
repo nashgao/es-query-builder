@@ -1,20 +1,9 @@
 <?php
-/**
- * Copyright (C) SPACE Platform PTY LTD - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Nash Gao <nash@spaceplaform.co>
- * @organization Space Platform
- * @project composer
- * @create Created on 2021/2/9 下午5:22
- * @author Nash Gao
- */
 
 declare(strict_types=1);
 
 
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns\Document;
-
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeWrite;
 use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticBean;
@@ -50,7 +39,7 @@ trait ElasticInsertDocumentTrait
     public function bulkInsertDocument(array $beans)
     {
         $bulkContainer = [];
-        for ($counter = 0; $counter < count($beans); $counter++ ){
+        for ($counter = 0; $counter < count($beans); $counter++) {
             if (! $beans[$counter] instanceof ElasticBean) {
                 continue;
             }
