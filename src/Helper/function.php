@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 
 use Nashgao\Elasticsearch\QueryBuilde\Bean\SplBean;
+use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticBean;
 
 if (! function_exists('filterBean')) {
     /**
@@ -29,12 +30,12 @@ if (! function_exists('filterBean')) {
 }
 
 
-if (! function_exists('array_filter_null_value')) {
+if (! function_exists('arrayFilterNullValue')) {
     /**
      * @param array $array
      * @return array
      */
-    function array_filter_null_value(array $array): array
+    function arrayFilterNullValue(array $array): array
     {
         return array_filter(
             $array,
@@ -42,5 +43,16 @@ if (! function_exists('array_filter_null_value')) {
                 return !is_null($item);
             }
         );
+    }
+}
+
+if(! function_exists('filterElasticBean')) {
+    /**
+     * @param ElasticBean $bean
+     * @return array
+     */
+    function filterElasticBean(ElasticBean $bean): array
+    {
+        return arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'document_id']));
     }
 }

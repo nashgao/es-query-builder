@@ -22,6 +22,7 @@ use Nashgao\Elasticsearch\QueryBuilder\Concerns\ElasticDocumentTrait;
 use Nashgao\Elasticsearch\QueryBuilder\Concerns\ElasticIndexTrait;
 use Nashgao\Elasticsearch\QueryBuilder\Concerns\ElasticMappingTrait;
 use Nashgao\Elasticsearch\QueryBuilder\Concerns\ElasticSettingTrait;
+use Psr\Container\ContainerInterface;
 
 abstract class ElasticsearchDao
 {
@@ -37,8 +38,14 @@ abstract class ElasticsearchDao
      */
     protected ElasticsearchModel $model;
 
-    public function __construct(ElasticsearchModel $model)
+    /**
+     * @var ContainerInterface
+     */
+    protected ContainerInterface $container;
+
+    public function __construct(ElasticsearchModel $model, ContainerInterface $container)
     {
         $this->model = $model;
+        $this->container = $container;
     }
 }

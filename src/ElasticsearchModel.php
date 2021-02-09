@@ -78,6 +78,16 @@ abstract class ElasticsearchModel
     public string $connection = 'default';
 
     /**
+     * @var string
+     */
+    public string $publish = 'elasticsearch';
+
+    /**
+     * @var array
+     */
+    public array $configurations;
+
+    /**
      * @var array
      */
     protected static array $namespaces = [
@@ -95,21 +105,20 @@ abstract class ElasticsearchModel
     public function __construct(ConfigInterface $config)
     {
         $this->config = $config;
-        $configurations = $this->config->get($this->connection);
+        $this->configurations = $this->config->get(join('.', [$this->publish,$this->connection]));
 
         $builder = ClientBuilder::create();
         if (Coroutine::getCid() > 0) {
             $handler = make(PoolHandler::class, [
                 'option' => [
-                    'max_connections' => $configurations['max_con'],
+                    'max_connections' => $this->configurations['max_con'],
                 ],
             ]);
             $builder->setHandler($handler);
         }
 
-        $config = $this->config->get($this->connection);
         $this->client = $builder->setHosts([
-            join(":", [$config['endpoint'], $config['port']])
+            join(":", [$this->configurations['endpoint'], $this->configurations['port']])
         ])->build();
     }
 

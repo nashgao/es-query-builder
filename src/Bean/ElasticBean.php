@@ -19,11 +19,11 @@ namespace Nashgao\Elasticsearch\QueryBuilder\Bean;
 
 use Nashgao\Elasticsearch\QueryBuilde\Bean\SplBean;
 
-class ElasticsearchIndexBean extends SplBean
+class ElasticBean extends SplBean
 {
     public string $index;
-    public array $aliases;
-    public array $documents;
+    public string $alias;
+    public string $document_id;
 
     /**
      * @param string $index
@@ -34,19 +34,19 @@ class ElasticsearchIndexBean extends SplBean
     }
 
     /**
-     * @param array $aliases
+     * @param string $alias
      */
-    public function setAliases(array $aliases): void
+    public function setAlias(string $alias): void
     {
-        $this->aliases = $aliases;
+        $this->alias = $alias;
     }
 
     /**
-     * @param array $documents
+     * @param string $document_id
      */
-    public function setDocuments(array $documents): void
+    public function setDocumentId(string $document_id): void
     {
-        $this->documents = $documents;
+        $this->document_id = $document_id;
     }
 
     /**
@@ -54,14 +54,14 @@ class ElasticsearchIndexBean extends SplBean
      */
     public function issetPrimaryKey(): bool
     {
-        return false;
+        return isset($this->document_id);
     }
 
     /**
-     * @return null
+     * @return string
      */
-    public function getPrimaryKey()
+    public function getPrimaryKey(): string
     {
-        return null;
+        return $this->document_id;
     }
 }

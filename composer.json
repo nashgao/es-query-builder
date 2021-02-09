@@ -20,5 +20,10 @@
         "psr-4": {
             "Nashgao\\Elasticsearch\\QueryBuilder\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nashgao\\Test\\": "./test"
+        }
     }
 }
