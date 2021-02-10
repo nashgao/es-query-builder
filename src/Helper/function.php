@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-use Nashgao\Elasticsearch\QueryBuilder\Bean\SplBean;
+use EasySwoole\Spl\SplBean;
 use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticBean;
 
 if (! function_exists('filterBean')) {
