@@ -1,5 +1,8 @@
 {
     "name": "nashgao/es-query-builder",
+    "type": "library",
+    "license": "MIT",
+    "description": "self used elasticsearch encapsulation for hyperf framework",
     "authors": [
         {
             "name": "nashgao",
@@ -42,10 +45,5 @@
         "cs-fix": "php-cs-fixer fix $1",
         "json-fix": "./bin/composer-json-fixer",
         "analyse": "phpstan analyse --memory-limit 4096M -l 5 -c phpstan.neon"
-    },
-    "extra": {
-        "hyperf": {
-            "config": "Nashgao\\TimerManager\\ConfigProvider"
-        }
     }
 }
