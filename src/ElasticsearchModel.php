@@ -121,9 +121,9 @@ class ElasticsearchModel
      * map the function method
      * @param string name
      * @param mixed arguments
-     * @return array
+     * @return mixed
      */
-    public function __call(string $name, $arguments): array
+    public function __call(string $name, $arguments)
     {
         return (function () use ($name, $arguments) {
             // if the argument has more than 1 element, which means the elasticsearch client needs the indices to execute

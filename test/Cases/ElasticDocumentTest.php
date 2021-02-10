@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Nashgao\Test\Cases\DocumentTest;
+namespace Nashgao\Test\Cases;
 
 use Nashgao\Elasticsearch\QueryBuilder\Constant\Bulk;
-use Nashgao\Test\Cases\AbstractTest;
 use Nashgao\Test\Stub\TestElasticBean;
 use Nashgao\Test\Stub\TestElasticDao;
+use Swoole\Coroutine;
 
-class ElasticInsertDocumentTest extends AbstractTest
+class ElasticDocumentTest extends AbstractTest
 {
     private string $index = 'index-insert';
 
@@ -34,6 +34,14 @@ class ElasticInsertDocumentTest extends AbstractTest
 
         $this->assertTrue($inserted['result'] === 'created');
 
+        $exists = $dao->existsDocument(
+            make(TestElasticBean::class)
+                ->setIndex($this->index)
+                ->setId($docId)
+        );
+
+        $this->assertTrue($exists);
+        
         $get = $dao->getDocument(
             make(TestElasticBean::class)
                 ->setIndex($this->index)
@@ -83,6 +91,15 @@ class ElasticInsertDocumentTest extends AbstractTest
         foreach ($inserted['items'] as $item) {
             $this->assertTrue($item[Bulk::INDEX]['result'] === 'created');
         }
+
+
+        Coroutine::sleep(1);
+        $getMulti = $dao->getMultiDocuments(
+            make(TestElasticBean::class)
+                ->setIndex($this->index)
+        );
+
+        $this->assertEquals(2, $getMulti['hits']['total']['value']);
 
 
         $updated = $dao->bulkUpdateDocument(

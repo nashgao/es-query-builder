@@ -52,7 +52,7 @@ trait ElasticGetDocumentTrait
         $parameters = [
             'index' => $bean->index ?? $bean->alias,
             'body' => [
-                'size' => $this->model->configurations['mac_doc'],
+                'size' => $this->model->configurations['max_doc'],
                 'query' => [
                     'match_all' => new \stdClass()
                 ]
