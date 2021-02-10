@@ -18,6 +18,3 @@ require BASE_PATH . '/vendor/autoload.php';
 Hyperf\Di\ClassLoader::init();
 /** @var \Psr\Container\ContainerInterface $container */
 $container = require BASE_PATH . '/config/container.php';
-
-
-

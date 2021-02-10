@@ -3,7 +3,6 @@
 
 namespace Nashgao\Test\Stub;
 
-
 use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticBean;
 
 class TestElasticBean extends ElasticBean
@@ -19,6 +18,4 @@ class TestElasticBean extends ElasticBean
         $this->string = $string;
         return $this;
     }
-
-
 }

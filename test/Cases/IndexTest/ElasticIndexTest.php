@@ -2,7 +2,6 @@
 
 namespace Nashgao\Test\Cases\IndexTest;
 
-
 use Nashgao\Test\Cases\AbstractTest;
 use Nashgao\Test\Stub\TestElasticDao;
 

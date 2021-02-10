@@ -15,6 +15,10 @@ if (! function_exists('filterBean')) {
      */
     function filterBean(SplBean $bean, array $filter = []):array
     {
+        $validKeys = array_diff_key($bean->toArrayWithMapping(), array_fill_keys($filter, null));
+        if (empty($validKeys)) {
+            return [];
+        }
         return $bean->toArray(array_keys(array_diff_key($bean->toArrayWithMapping(), array_fill_keys($filter, null))), $bean::FILTER_NOT_NULL);
     }
 }

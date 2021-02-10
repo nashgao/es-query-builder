@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nashgao\Test\Cases;
 
-
 use Hyperf\Utils\ApplicationContext;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -21,6 +20,5 @@ abstract class AbstractTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->container = ApplicationContext::getContainer();
-
     }
 }

@@ -53,13 +53,13 @@ trait ElasticUpdateDocumentTrait
                 ]
             ];
 
-            $bulkContainer['body'][] = filterElasticBean($bean);
+            $bulkContainer['body'][] = [
+                'doc' => filterElasticBean($bean)
+            ];
         }
 
-        var_dump($bulkContainer);
-
         if (! empty($bulkContainer['body'])) {
-            $this->model->bulk($bulkContainer);
+            return $this->model->bulk($bulkContainer);
         }
     }
 }
