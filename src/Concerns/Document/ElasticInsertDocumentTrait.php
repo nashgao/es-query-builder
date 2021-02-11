@@ -34,9 +34,9 @@ trait ElasticInsertDocumentTrait
 
     /**
      * @param array $beans
-     * @return array|bool
+     * @return array
      */
-    public function bulkInsertDocument(array $beans)
+    public function bulkInsertDocument(array $beans):array
     {
         $bulkContainer = [];
         foreach ($beans as $bean) {
@@ -57,5 +57,7 @@ trait ElasticInsertDocumentTrait
         if (! empty($bulkContainer['body'])) {
             return $this->model->bulk($bulkContainer);
         }
+
+        return [];
     }
 }

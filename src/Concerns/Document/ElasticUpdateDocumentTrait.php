@@ -36,9 +36,9 @@ trait ElasticUpdateDocumentTrait
 
     /**
      * @param array $beans
-     * @return array|bool
+     * @return array
      */
-    public function bulkUpdateDocument(array $beans)
+    public function bulkUpdateDocument(array $beans):array
     {
         $bulkContainer = [];
         foreach ($beans as $bean) {
@@ -61,5 +61,7 @@ trait ElasticUpdateDocumentTrait
         if (! empty($bulkContainer['body'])) {
             return $this->model->bulk($bulkContainer);
         }
+
+        return [];
     }
 }

@@ -30,8 +30,9 @@ trait ElasticDeleteDocumentTrait
 
     /**
      * @param array $beans
+     * @return array
      */
-    public function bulkDeleteDocument(array $beans)
+    public function bulkDeleteDocument(array $beans): array
     {
         $bulkContainer = [];
         foreach ($beans as $bean) {
@@ -50,5 +51,7 @@ trait ElasticDeleteDocumentTrait
         if (! empty($bulkContainer['body'])) {
             return $this->model->bulk($bulkContainer);
         }
+
+        return [];
     }
 }
