@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nashgao\Elasticsearch\QueryBuilder\Bean;
 
-class ElasticBean extends SplBean
+class ElasticSearchBean extends SplBean
 {
     public string $index;
     public string $alias;
@@ -12,9 +12,9 @@ class ElasticBean extends SplBean
 
     /**
      * @param string $index
-     * @return ElasticBean
+     * @return ElasticSearchBean
      */
-    public function setIndex(string $index): ElasticBean
+    public function setIndex(string $index): ElasticSearchBean
     {
         $this->index = $index;
         return $this;
@@ -22,9 +22,9 @@ class ElasticBean extends SplBean
 
     /**
      * @param string $alias
-     * @return ElasticBean
+     * @return ElasticSearchBean
      */
-    public function setAlias(string $alias): ElasticBean
+    public function setAlias(string $alias): ElasticSearchBean
     {
         $this->alias = $alias;
         return $this;
@@ -32,9 +32,9 @@ class ElasticBean extends SplBean
 
     /**
      * @param string $id
-     * @return ElasticBean
+     * @return ElasticSearchBean
      */
-    public function setId(string $id): ElasticBean
+    public function setId(string $id): ElasticSearchBean
     {
         $this->id = $id;
         return $this;

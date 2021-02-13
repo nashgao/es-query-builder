@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Nashgao\Test\Cases;
 
 use Nashgao\Elasticsearch\QueryBuilder\Constant\Bulk;
-use Nashgao\Test\Stub\TestElasticBean;
+use Nashgao\Test\Stub\TestElasticSearchBean;
 use Nashgao\Test\Stub\TestElasticDao;
 use Swoole\Coroutine;
 
@@ -26,7 +26,7 @@ class ElasticDocumentTest extends AbstractTest
         $dao = $this->container->get(TestElasticDao::class);
         $docId = uniqid();
         $inserted = $dao->insertDocument(
-            make(TestElasticBean::class)
+            make(TestElasticSearchBean::class)
                 ->setIndex($this->index)
                 ->setId($docId)
                 ->setString('a')
@@ -35,7 +35,7 @@ class ElasticDocumentTest extends AbstractTest
         $this->assertTrue($inserted['result'] === 'created');
 
         $exists = $dao->existsDocument(
-            make(TestElasticBean::class)
+            make(TestElasticSearchBean::class)
                 ->setIndex($this->index)
                 ->setId($docId)
         );
@@ -43,7 +43,7 @@ class ElasticDocumentTest extends AbstractTest
         $this->assertTrue($exists);
         
         $get = $dao->getDocument(
-            make(TestElasticBean::class)
+            make(TestElasticSearchBean::class)
                 ->setIndex($this->index)
                 ->setId($docId)
         );
@@ -51,7 +51,7 @@ class ElasticDocumentTest extends AbstractTest
         $this->assertTrue($get['_source']['string'] === 'a');
 
         $updated = $dao->updateDocument(
-            make(TestElasticBean::class)
+            make(TestElasticSearchBean::class)
                 ->setIndex($this->index)
                 ->setId($docId)
                 ->setString('b')
@@ -60,7 +60,7 @@ class ElasticDocumentTest extends AbstractTest
         $this->assertTrue($updated['result'] === 'updated');
 
         $deleted = $dao->deleteDocument(
-            make(TestElasticBean::class)
+            make(TestElasticSearchBean::class)
                 ->setIndex($this->index)
                 ->setId($docId)
                 ->setString('b')
@@ -77,11 +77,11 @@ class ElasticDocumentTest extends AbstractTest
         $docIdTwo = uniqid('2');
         $inserted = $dao->bulkInsertDocument(
             [
-                make(TestElasticBean::class)
+                make(TestElasticSearchBean::class)
                     ->setIndex($this->index)
                     ->setId($docIdOne)
                     ->setString('a'),
-                make(TestElasticBean::class)
+                make(TestElasticSearchBean::class)
                     ->setIndex($this->index)
                     ->setId($docIdTwo)
                     ->setString('a')
@@ -95,7 +95,7 @@ class ElasticDocumentTest extends AbstractTest
 
         Coroutine::sleep(1);
         $getMulti = $dao->getMultiDocuments(
-            make(TestElasticBean::class)
+            make(TestElasticSearchBean::class)
                 ->setIndex($this->index)
         );
 
@@ -104,11 +104,11 @@ class ElasticDocumentTest extends AbstractTest
 
         $updated = $dao->bulkUpdateDocument(
             [
-                make(TestElasticBean::class)
+                make(TestElasticSearchBean::class)
                     ->setIndex($this->index)
                     ->setId($docIdOne)
                     ->setString('b'),
-                make(TestElasticBean::class)
+                make(TestElasticSearchBean::class)
                     ->setIndex($this->index)
                     ->setId($docIdTwo)
                     ->setString('b')
@@ -121,10 +121,10 @@ class ElasticDocumentTest extends AbstractTest
 
         $deleted = $dao->bulkDeleteDocument(
             [
-                make(TestElasticBean::class)
+                make(TestElasticSearchBean::class)
                     ->setIndex($this->index)
                     ->setId($docIdOne),
-                make(TestElasticBean::class)
+                make(TestElasticSearchBean::class)
                     ->setIndex($this->index)
                     ->setId($docIdTwo)
             ]

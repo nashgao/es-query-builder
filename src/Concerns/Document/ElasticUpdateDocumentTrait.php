@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns\Document;
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeWrite;
-use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticBean;
+use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticSearchBean;
 use Nashgao\Elasticsearch\QueryBuilder\Constant\Bulk;
 use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 
@@ -17,10 +17,10 @@ trait ElasticUpdateDocumentTrait
 {
     /**
      * @NormalizeWrite()
-     * @param ElasticBean $bean
+     * @param ElasticSearchBean $bean
      * @return array
      */
-    public function updateDocument(ElasticBean $bean): array
+    public function updateDocument(ElasticSearchBean $bean): array
     {
         $parameters = [
             'index' => $bean->index,
@@ -42,7 +42,7 @@ trait ElasticUpdateDocumentTrait
     {
         $bulkContainer = [];
         foreach ($beans as $bean) {
-            if (! $bean instanceof ElasticBean) {
+            if (! $bean instanceof ElasticSearchBean) {
                 continue;
             }
 

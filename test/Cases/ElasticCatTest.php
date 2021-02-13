@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Nashgao\Test\Cases;
 
-use Nashgao\Test\Stub\TestElasticBean;
+use Nashgao\Test\Stub\TestElasticSearchBean;
 use Nashgao\Test\Stub\TestElasticDao;
 
 class ElasticCatTest extends AbstractTest
@@ -32,7 +32,7 @@ class ElasticCatTest extends AbstractTest
         $this->assertTrue($alias['acknowledged']);
 
         $inserted = $dao->insertDocument(
-            make(TestElasticBean::class)
+            make(TestElasticSearchBean::class)
                 ->setIndex($this->index)
                 ->setId(uniqid())
                 ->setString('a')

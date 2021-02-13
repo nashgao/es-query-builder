@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 
 use EasySwoole\Spl\SplBean;
-use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticBean;
+use Nashgao\Elasticsearch\QueryBuilder\Bean\ElasticSearchBean;
 
 if (! function_exists('filterBean')) {
     /**
@@ -42,10 +42,10 @@ if (! function_exists('arrayFilterNullValue')) {
 
 if (! function_exists('filterElasticBean')) {
     /**
-     * @param ElasticBean $bean
+     * @param ElasticSearchBean $bean
      * @return array
      */
-    function filterElasticBean(ElasticBean $bean): array
+    function filterElasticBean(ElasticSearchBean $bean): array
     {
         return arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'id']));
     }
