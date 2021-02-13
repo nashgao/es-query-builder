@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Nashgao\Elasticsearch\QueryBuilder;
 
+use Hyperf\Utils\ApplicationContext;
 use Nashgao\Elasticsearch\QueryBuilder\Concerns\ElasticAliasTrait;
 use Nashgao\Elasticsearch\QueryBuilder\Concerns\ElasticCatTrait;
 use Nashgao\Elasticsearch\QueryBuilder\Concerns\ElasticDocumentTrait;
@@ -32,9 +33,9 @@ class ElasticsearchDao
      */
     protected ContainerInterface $container;
 
-    public function __construct(ElasticsearchModel $model, ContainerInterface $container)
+    public function __construct(ElasticsearchModel $model)
     {
         $this->model = $model;
-        $this->container = $container;
+        $this->container = ApplicationContext::getContainer();
     }
 }
