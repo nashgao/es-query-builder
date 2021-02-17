@@ -23,7 +23,7 @@ trait ElasticDeleteDocumentTrait
     public function deleteDocument(ElasticSearchBean $bean)
     {
         return $this->model->delete([
-            'index' => $bean->index ?? $bean->alias,
+            'index' => $bean->index ?? $this->model->index ??  $bean->alias,
             'id' => $bean->id
         ]);
     }
@@ -42,7 +42,7 @@ trait ElasticDeleteDocumentTrait
 
             $bulkContainer['body'][] = [
                 Bulk::DELETE => [
-                    '_index' => $bean->index ?? $bean->alias,
+                    '_index' => $bean->index ?? $this->model->index ?? $bean->alias,
                     '_id' => $bean->id
                 ]
             ];

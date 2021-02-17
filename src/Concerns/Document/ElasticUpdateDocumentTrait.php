@@ -23,7 +23,7 @@ trait ElasticUpdateDocumentTrait
     public function updateDocument(ElasticSearchBean $bean): array
     {
         $parameters = [
-            'index' => $bean->index,
+            'index' => $bean->index ?? $this->model->index ,
             'id' => $bean->id,
             'body' => [
                 'doc' => arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'id']))
@@ -48,7 +48,7 @@ trait ElasticUpdateDocumentTrait
 
             $bulkContainer['body'][] = [
                 Bulk::UPDATE => [
-                    '_index' => $bean->index,
+                    '_index' => $bean->index ?? $this->model->index,
                     '_id' => $bean->id
                 ]
             ];

@@ -22,7 +22,7 @@ trait ElasticGetDocumentTrait
     public function existsDocument(ElasticSearchBean $bean):bool
     {
         return $this->model->existsSource([
-            'index' => $bean->index ?? $bean->alias,
+            'index' => $bean->index ?? $this->model->index ?? $bean->alias,
             'id' => $bean->id
         ]);
     }
@@ -35,7 +35,7 @@ trait ElasticGetDocumentTrait
     public function getDocument(ElasticSearchBean $bean):array
     {
         $parameters = [
-            'index' => $bean->index ?? $bean->alias,
+            'index' => $bean->index ?? $this->model->index ?? $bean->alias,
             'id' => $bean->id
         ];
 
@@ -50,7 +50,7 @@ trait ElasticGetDocumentTrait
     public function getMultiDocuments(ElasticSearchBean $bean):array
     {
         $parameters = [
-            'index' => $bean->index ?? $bean->alias,
+            'index' => $bean->index ?? $this->model->index ?? $bean->alias,
             'body' => [
                 'size' => $this->model->configurations['max_doc'],
                 'query' => [

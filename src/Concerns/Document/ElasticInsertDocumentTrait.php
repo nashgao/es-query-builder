@@ -23,7 +23,7 @@ trait ElasticInsertDocumentTrait
     public function insertDocument(ElasticSearchBean $bean): array
     {
         $parameters = [
-            'index' => $bean->index ?? $bean->alias,
+            'index' => $bean->index ?? $this->model->index ?? $bean->alias,
             'id' => $bean->id,
             'body' => filterElasticBean($bean)
         ];
@@ -46,7 +46,7 @@ trait ElasticInsertDocumentTrait
 
             $bulkContainer['body'][] = [
                 Bulk::INDEX => [
-                    '_index' => $bean->index,
+                    '_index' => $bean->index ?? $this->model->index,
                     '_id' => $bean->id
                 ]
             ];
