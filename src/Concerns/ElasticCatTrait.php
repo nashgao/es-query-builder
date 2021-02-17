@@ -15,13 +15,13 @@ trait ElasticCatTrait
 {
     /**
      * if the param is empty ,then it's cat for all indexes
-     * @param string $index
+     * @param string|null $index
      * @param string $namespace
      * @return array
      */
-    public function catIndex(string $index, string $namespace = CatNamespace::class):array
+    public function catIndex(string $index = null, string $namespace = CatNamespace::class):array
     {
-        return $this->model->indices(['index' => $index], $namespace);
+        return $this->model->indices(['index' => $this->model->index ?? $index], $namespace);
     }
 
     /**
@@ -51,12 +51,12 @@ trait ElasticCatTrait
     }
 
     /**
-     * @param string $index
+     * @param string|null $index
      * @param string $namespace
      * @return array
      */
-    public function catCount(string $index, string $namespace = CatNamespace::class): array
+    public function catCount(string $index = null, string $namespace = CatNamespace::class): array
     {
-        return $this->model->count(['index' => $index], $namespace);
+        return $this->model->count(['index' => $this->model->index ?? $index], $namespace);
     }
 }

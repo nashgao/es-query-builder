@@ -14,13 +14,13 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticMappingTrait
 {
     /**
-     * @param string $index
+     * @param string|null $index
      * @param string $namespace
      * @return array
      */
-    public function getMapping(string $index, string $namespace = IndicesNamespace::class):array
+    public function getMapping(string $index = null, string $namespace = IndicesNamespace::class):array
     {
-        return $this->model->getMapping(['index' => $index], $namespace);
+        return $this->model->getMapping(['index' => $this->model->index ?? $index], $namespace);
     }
 
     /**

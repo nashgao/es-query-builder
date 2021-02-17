@@ -16,43 +16,43 @@ trait ElasticIndexTrait
 {
     /**
      * check if an index exists
-     * @param string $index
+     * @param string|null $index
      * @return bool
      */
-    public function existsIndex(string $index): bool
+    public function existsIndex(string $index = null): bool
     {
-        return $this->model->exists(['index' => $index], IndicesNamespace::class);
+        return $this->model->exists(['index' => $this->model->index ?? $index], IndicesNamespace::class);
     }
 
     /**
      * create index and mapping
      * @Acknowledged()
-     * @param string $index
+     * @param string|null $index
      * @return bool|array
      */
-    public function createIndex(string $index)
+    public function createIndex(string $index = null)
     {
-        return $this->model->create(['index' => $index], IndicesNamespace::class);
+        return $this->model->create(['index' => $this->model->index ?? $index], IndicesNamespace::class);
     }
 
     /**
      * @Acknowledged()
-     * @param string $index
+     * @param string|null $index
      * @param string $namespace
      * @return bool|array
      */
-    public function createIndexWithMapping(string $index, string $namespace = IndicesNamespace::class)
+    public function createIndexWithMapping(string $index = null, string $namespace = IndicesNamespace::class)
     {
         return false;
     }
 
     /**
      * @Acknowledged()
-     * @param string $index
+     * @param string|null $index
      * @return bool|array
      */
-    public function deleteIndex(string $index)
+    public function deleteIndex(string $index = null)
     {
-        return $this->model->delete(['index' => $index], IndicesNamespace::class);
+        return $this->model->delete(['index' => $this->model->index ?? $index], IndicesNamespace::class);
     }
 }

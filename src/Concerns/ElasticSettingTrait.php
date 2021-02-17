@@ -14,14 +14,14 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticSettingTrait
 {
     /**
-     * @param string $index
+     * @param string|null $index
      * @param string|null $name
      * @param string $namespace
      * @return array
      */
-    public function getSetting(string $index, string $name = null, string $namespace = IndicesNamespace::class):array
+    public function getSetting(string $index = null, string $name = null, string $namespace = IndicesNamespace::class):array
     {
-        $query = ['index' => $index];
+        $query = ['index' => $this->model->index ?? $index];
         if (isset($name)) {
             $query['name'] = $name;
         }

@@ -70,6 +70,11 @@ class ElasticsearchModel
     public string $publish = 'elasticsearch';
 
     /**
+     * @var string
+     */
+    public string $index;
+
+    /**
      * @var array
      */
     public array $configurations;
@@ -102,6 +107,11 @@ class ElasticsearchModel
                 ],
             ]);
             $builder->setHandler($handler);
+        }
+
+        // set up index if it exists
+        if (array_key_exists('index', $this->configurations) and isset($this->configurations['index']) and is_string($this->configurations['index'])) {
+            $this->index = $this->configurations['index'];
         }
 
         $this->client = $builder->setHosts([
