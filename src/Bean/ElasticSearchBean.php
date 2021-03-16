@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Nashgao\Elasticsearch\QueryBuilder\Bean;
 
-class ElasticSearchBean extends SplBean
+
+use Nashgao\Utils\Bean\SplBean as Bean;
+
+class ElasticSearchBean extends Bean
 {
     public string $index;
     public string $alias;
