@@ -7,7 +7,6 @@ namespace Nashgao\Elasticsearch\QueryBuilder;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Hyperf\Contract\ConfigInterface;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\Guzzle\RingPHP\PoolHandler;
 use Nashgao\Elasticsearch\QueryBuilder\Exception\ElasticsearchException;
 use Swoole\Coroutine;
@@ -54,7 +53,6 @@ class ElasticsearchModel
     protected Client $client;
 
     /**
-     * @Inject()
      * @var ConfigInterface
      */
     protected ConfigInterface $config;
@@ -129,11 +127,11 @@ class ElasticsearchModel
 
     /**
      * map the function method
-     * @param string name
-     * @param mixed arguments
+     * @param string $name
+     * @param mixed $arguments
      * @return mixed
      */
-    public function __call(string $name, $arguments)
+    public function __call(string $name, mixed $arguments): mixed
     {
         return (function () use ($name, $arguments) {
             // if the argument has more than 1 element, which means the elasticsearch client needs the indices to execute

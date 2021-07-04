@@ -21,8 +21,6 @@ class NormalizeGetAspect extends AbstractAspect
     ];
 
     /**
-     * @param ProceedingJoinPoint $proceedingJoinPoint
-     * @return mixed
      * @throws Exception
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint): ?array
@@ -32,8 +30,6 @@ class NormalizeGetAspect extends AbstractAspect
     }
 
     /**
-     * @param array $result
-     * @param bool $getFirst
      * @return array|null
      */
     protected function cleanSearchResult(array $result, bool $getFirst = false):?array

@@ -15,8 +15,8 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticAliasTrait
 {
     /**
+     * @param string $name
      * @param string|null $index
-     * @param string|null $name
      * @param string $namespace
      * @return bool
      */
