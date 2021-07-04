@@ -152,7 +152,7 @@ class ElasticsearchDao
      * @NormalizeWrite
      * @return array|bool
      */
-    public function deleteDocument(ElasticSearchBean $bean): bool | array
+    public function deleteDocument(ElasticSearchBean $bean): bool|array
     {
         return $this->model->delete([
             'index' => $bean->index ?? $this->model->index ?? $bean->alias,
@@ -197,7 +197,7 @@ class ElasticsearchDao
      * @Acknowledged
      * @return array|bool
      */
-    public function updateAliases(string $alias, string $index = null, string $namespace = IndicesNamespace::class): bool | array
+    public function updateAliases(string $alias, string $index = null, string $namespace = IndicesNamespace::class): bool|array
     {
         $param['body'] = [
             'actions' => [
@@ -214,7 +214,7 @@ class ElasticsearchDao
      * @Acknowledged
      * @return array|bool
      */
-    public function deleteAlias(string $name, string $index = null, string $namespace = IndicesNamespace::class): bool | array
+    public function deleteAlias(string $name, string $index = null, string $namespace = IndicesNamespace::class): bool|array
     {
         $query = [
             'name' => $name,
@@ -265,17 +265,17 @@ class ElasticsearchDao
      * @Acknowledged
      * @return array|bool
      */
-    public function createIndex(string $index = null): bool | array
+    public function createIndex(string $index = null): bool|array
     {
         return $this->model->create(['index' => $this->model->index ?? $index], IndicesNamespace::class);
     }
 
     /**
-     * @todo: complete function
+     * should be overwritten
      * @Acknowledged
      * @return array|bool
      */
-    public function createIndexWithMapping(string $index = null, string $namespace = IndicesNamespace::class): bool | array
+    public function createIndexWithMapping(string $index = null, string $namespace = IndicesNamespace::class): bool|array
     {
         return false;
     }
@@ -284,7 +284,7 @@ class ElasticsearchDao
      * @Acknowledged
      * @return array|bool
      */
-    public function deleteIndex(string $index = null): bool | array
+    public function deleteIndex(string $index = null): bool|array
     {
         return $this->model->delete(['index' => $this->model->index ?? $index], IndicesNamespace::class);
     }
