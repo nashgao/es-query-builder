@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns\Document;
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeWrite;
@@ -16,22 +15,17 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticDeleteDocumentTrait
 {
     /**
-     * @NormalizeWrite()
-     * @param ElasticSearchBean $bean
+     * @NormalizeWrite
      * @return array|bool
      */
     public function deleteDocument(ElasticSearchBean $bean)
     {
         return $this->model->delete([
-            'index' => $bean->index ?? $this->model->index ??  $bean->alias,
-            'id' => $bean->id
+            'index' => $bean->index ?? $this->model->index ?? $bean->alias,
+            'id' => $bean->id,
         ]);
     }
 
-    /**
-     * @param array $beans
-     * @return array
-     */
     public function bulkDeleteDocument(array $beans): array
     {
         $bulkContainer = [];
@@ -43,8 +37,8 @@ trait ElasticDeleteDocumentTrait
             $bulkContainer['body'][] = [
                 Bulk::DELETE => [
                     '_index' => $bean->index ?? $this->model->index ?? $bean->alias,
-                    '_id' => $bean->id
-                ]
+                    '_id' => $bean->id,
+                ],
             ];
         }
 

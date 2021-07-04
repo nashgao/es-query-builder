@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns\Document;
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeWrite;
@@ -16,29 +15,22 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticUpdateDocumentTrait
 {
     /**
-     * @NormalizeWrite()
-     * @param ElasticSearchBean $bean
-     * @return array
+     * @NormalizeWrite
      */
     public function updateDocument(ElasticSearchBean $bean): array
     {
         $parameters = [
-            'index' => $bean->index ?? $this->model->index ,
+            'index' => $bean->index ?? $this->model->index,
             'id' => $bean->id,
             'body' => [
-                'doc' => arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'id']))
-            ]
+                'doc' => arrayFilterNullValue(filterBean($bean, ['index', 'alias', 'id'])),
+            ],
         ];
 
         return $this->model->update($parameters);
     }
 
-
-    /**
-     * @param array $beans
-     * @return array
-     */
-    public function bulkUpdateDocument(array $beans):array
+    public function bulkUpdateDocument(array $beans): array
     {
         $bulkContainer = [];
         foreach ($beans as $bean) {
@@ -49,12 +41,12 @@ trait ElasticUpdateDocumentTrait
             $bulkContainer['body'][] = [
                 Bulk::UPDATE => [
                     '_index' => $bean->index ?? $this->model->index,
-                    '_id' => $bean->id
-                ]
+                    '_id' => $bean->id,
+                ],
             ];
 
             $bulkContainer['body'][] = [
-                'doc' => filterElasticBean($bean)
+                'doc' => filterElasticBean($bean),
             ];
         }
 

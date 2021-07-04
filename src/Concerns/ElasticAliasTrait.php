@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
-use Nashgao\Elasticsearch\QueryBuilder\Annotation\Acknowledged;
 use Elasticsearch\Namespaces\IndicesNamespace;
+use Nashgao\Elasticsearch\QueryBuilder\Annotation\Acknowledged;
 use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 
 /**
@@ -14,13 +13,7 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
  */
 trait ElasticAliasTrait
 {
-    /**
-     * @param string $name
-     * @param string|null $index
-     * @param string $namespace
-     * @return bool
-     */
-    public function existsAlias(string $name, string $index = null, string $namespace = IndicesNamespace::class):bool
+    public function existsAlias(string $name, string $index = null, string $namespace = IndicesNamespace::class): bool
     {
         $query = [
             'name' => $name,
@@ -31,10 +24,7 @@ trait ElasticAliasTrait
     }
 
     /**
-     * @Acknowledged()
-     * @param string $alias
-     * @param string|null $index
-     * @param string $namespace
+     * @Acknowledged
      * @return array|bool
      */
     public function updateAliases(string $alias, string $index = null, string $namespace = IndicesNamespace::class)
@@ -43,18 +33,15 @@ trait ElasticAliasTrait
             'actions' => [
                 'add' => [
                     'index' => $this->model->index ?? $index,
-                    'alias' => $alias
-                ]
-            ]
+                    'alias' => $alias,
+                ],
+            ],
         ];
         return $this->model->updateAliases($param, $namespace);
     }
 
     /**
-     * @Acknowledged()
-     * @param string $name
-     * @param string|null $index
-     * @param string $namespace
+     * @Acknowledged
      * @return array|bool
      */
     public function deleteAlias(string $name, string $index = null, string $namespace = IndicesNamespace::class)
@@ -63,7 +50,7 @@ trait ElasticAliasTrait
             'name' => $name,
             'index' => $this->model->index ?? $index,
         ];
-        
+
         return $this->model->deleteAlias($query, $namespace);
     }
 }

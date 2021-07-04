@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns;
 
-use Nashgao\Elasticsearch\QueryBuilder\Annotation\Acknowledged;
 use Elasticsearch\Namespaces\IndicesNamespace;
+use Nashgao\Elasticsearch\QueryBuilder\Annotation\Acknowledged;
 use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 
 /**
@@ -15,9 +14,7 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticIndexTrait
 {
     /**
-     * check if an index exists
-     * @param string|null $index
-     * @return bool
+     * check if an index exists.
      */
     public function existsIndex(string $index = null): bool
     {
@@ -25,10 +22,9 @@ trait ElasticIndexTrait
     }
 
     /**
-     * create index and mapping
-     * @Acknowledged()
-     * @param string|null $index
-     * @return bool|array
+     * create index and mapping.
+     * @Acknowledged
+     * @return array|bool
      */
     public function createIndex(string $index = null)
     {
@@ -36,10 +32,8 @@ trait ElasticIndexTrait
     }
 
     /**
-     * @Acknowledged()
-     * @param string|null $index
-     * @param string $namespace
-     * @return bool|array
+     * @Acknowledged
+     * @return array|bool
      */
     public function createIndexWithMapping(string $index = null, string $namespace = IndicesNamespace::class)
     {
@@ -47,9 +41,8 @@ trait ElasticIndexTrait
     }
 
     /**
-     * @Acknowledged()
-     * @param string|null $index
-     * @return bool|array
+     * @Acknowledged
+     * @return array|bool
      */
     public function deleteIndex(string $index = null)
     {

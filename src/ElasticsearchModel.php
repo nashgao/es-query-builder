@@ -12,7 +12,7 @@ use Nashgao\Elasticsearch\QueryBuilder\Exception\ElasticsearchException;
 use Swoole\Coroutine;
 
 /**
- * default namespace
+ * default namespace.
  * @method array search(array $param):array search
  * @method array index (array $param) single document indexing
  * @method array get(array $param) get specific document
@@ -47,55 +47,31 @@ use Swoole\Coroutine;
  */
 class ElasticsearchModel
 {
-    /**
-     * @var Client
-     */
-    protected Client $client;
-
-    /**
-     * @var ConfigInterface
-     */
-    protected ConfigInterface $config;
-
-    /**
-     * @var string
-     */
     public string $connection = 'default';
 
-    /**
-     * @var string
-     */
     public string $publish = 'elasticsearch';
 
-    /**
-     * @var string
-     */
     public string $index;
 
-    /**
-     * @var array
-     */
     public array $configurations;
 
-    /**
-     * @var array
-     */
+    protected Client $client;
+
+    protected ConfigInterface $config;
+
     protected static array $namespaces = [
         \Elasticsearch\Namespaces\IndicesNamespace::class => 'indices',
         \Elasticsearch\Namespaces\NodesNamespace::class => 'nodes',
         \Elasticsearch\Namespaces\ClusterNamespace::class => 'cluster',
         \Elasticsearch\Namespaces\SnapshotNamespace::class => 'snapshot',
         \Elasticsearch\Namespaces\CatNamespace::class => 'cat',
-        \Elasticsearch\Namespaces\IngestNamespace::class => 'ingest'
+        \Elasticsearch\Namespaces\IngestNamespace::class => 'ingest',
     ];
 
-    /**
-     * @param ConfigInterface $config
-     */
     public function __construct(ConfigInterface $config)
     {
         $this->config = $config;
-        $this->configurations = $this->config->get(join('.', [$this->publish,$this->connection]));
+        $this->configurations = $this->config->get(join('.', [$this->publish, $this->connection]));
 
         $builder = ClientBuilder::create();
         if (Coroutine::getCid() > 0) {
@@ -113,30 +89,19 @@ class ElasticsearchModel
         }
 
         $this->client = $builder->setHosts([
-            join(":", [$this->configurations['endpoint'], $this->configurations['port']])
+            join(':', [$this->configurations['endpoint'], $this->configurations['port']]),
         ])->build();
     }
 
     /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
-    }
-
-    /**
-     * map the function method
-     * @param string $name
-     * @param mixed $arguments
-     * @return mixed
+     * map the function method.
      */
     public function __call(string $name, mixed $arguments): mixed
     {
         return (function () use ($name, $arguments) {
             // if the argument has more than 1 element, which means the elasticsearch client needs the indices to execute
             return count($arguments) < 2 ? (function () use ($name, $arguments) {
-                return $this->client->$name(...$arguments);
+                return $this->client->{$name}(...$arguments);
             })() : (function () use ($name, $arguments) {
                 if (array_key_exists($arguments[1], static::$namespaces)) {
 //                    if ( empty($arguments[1]) ) {
@@ -145,12 +110,16 @@ class ElasticsearchModel
 //                    }
 
                     return (static::$namespaces[$arguments[1]] !== \Elasticsearch\Namespaces\IngestNamespace::class) ?
-                        $this->client->{static::$namespaces[$arguments[1]]}()->$name($arguments[0]) : // execute indices namespace
-                        $this->client->{static::$namespaces[$arguments[1]]}()->$name([$arguments[0]]); // execute ingest namespace
-                } else {
-                    throw new ElasticsearchException('invalid namespace');
+                        $this->client->{static::$namespaces[$arguments[1]]}()->{$name}($arguments[0]) : // execute indices namespace
+                        $this->client->{static::$namespaces[$arguments[1]]}()->{$name}([$arguments[0]]); // execute ingest namespace
                 }
+                throw new ElasticsearchException('invalid namespace');
             })();
         })();
+    }
+
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

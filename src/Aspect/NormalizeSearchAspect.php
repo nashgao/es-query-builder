@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Aspect;
 
-use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeSearch;
 use Hyperf\Di\Annotation\Aspect;
 use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Di\Exception\Exception;
+use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeSearch;
 
 /**
- * @Aspect()
+ * @Aspect
  */
 class NormalizeSearchAspect extends AbstractAspect
 {
@@ -20,9 +19,6 @@ class NormalizeSearchAspect extends AbstractAspect
         NormalizeSearch::class,
     ];
 
-    /**
-     * @param ProceedingJoinPoint $proceedingJoinPoint
-     */
     public function process(ProceedingJoinPoint $proceedingJoinPoint): array
     {
         try {
@@ -32,7 +28,7 @@ class NormalizeSearchAspect extends AbstractAspect
             return [];
         }
 
-        $cleanedResult =  $this->cleanSearchResult($result);
+        $cleanedResult = $this->cleanSearchResult($result);
         if (isset($result['hits']['total']['value'])) {
             $cleanedResult['total'] = $result['hits']['total']['value'];
         }
@@ -40,14 +36,9 @@ class NormalizeSearchAspect extends AbstractAspect
         return $cleanedResult;
     }
 
-    /**
-     * @param array $result
-     * @param bool $getFirst
-     * @return array|null
-     */
-    protected function cleanSearchResult(array $result, bool $getFirst = false):?array
+    protected function cleanSearchResult(array $result, bool $getFirst = false): ?array
     {
-        return (!empty($result['hits']['hits'])) ?
+        return (! empty($result['hits']['hits'])) ?
             (function () use ($result, $getFirst) {
                 return ($getFirst) ? $result['hits']['hits'][0] : $result['hits']['hits'];
             })() : [];

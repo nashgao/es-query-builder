@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder;
 
 use Hyperf\Utils\ApplicationContext;
@@ -23,14 +22,8 @@ class ElasticsearchDao
     use ElasticMappingTrait;
     use ElasticSettingTrait;
 
-    /**
-     * @var ElasticsearchModel
-     */
     protected ElasticsearchModel $model;
 
-    /**
-     * @var ContainerInterface
-     */
     protected ContainerInterface $container;
 
     public function __construct(ElasticsearchModel $model)

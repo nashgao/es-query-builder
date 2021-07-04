@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns\Document;
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeWrite;
@@ -16,27 +15,20 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
 trait ElasticInsertDocumentTrait
 {
     /**
-     * @NormalizeWrite()
-     * @param ElasticSearchBean $bean
-     * @return array
+     * @NormalizeWrite
      */
     public function insertDocument(ElasticSearchBean $bean): array
     {
         $parameters = [
             'index' => $bean->index ?? $this->model->index ?? $bean->alias,
             'id' => $bean->id,
-            'body' => filterElasticBean($bean)
+            'body' => filterElasticBean($bean),
         ];
 
         return $this->model->index($parameters);
     }
 
-
-    /**
-     * @param array $beans
-     * @return array
-     */
-    public function bulkInsertDocument(array $beans):array
+    public function bulkInsertDocument(array $beans): array
     {
         $bulkContainer = [];
         foreach ($beans as $bean) {
@@ -47,8 +39,8 @@ trait ElasticInsertDocumentTrait
             $bulkContainer['body'][] = [
                 Bulk::INDEX => [
                     '_index' => $bean->index ?? $this->model->index,
-                    '_id' => $bean->id
-                ]
+                    '_id' => $bean->id,
+                ],
             ];
 
             $bulkContainer['body'][] = filterElasticBean($bean);

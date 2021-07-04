@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Nashgao\Elasticsearch\QueryBuilder\Concerns\Document;
 
 use Nashgao\Elasticsearch\QueryBuilder\Annotation\NormalizeGet;
@@ -14,49 +13,40 @@ use Nashgao\Elasticsearch\QueryBuilder\ElasticsearchModel;
  */
 trait ElasticGetDocumentTrait
 {
-
-    /**
-     * @param ElasticSearchBean $bean
-     * @return bool
-     */
-    public function existsDocument(ElasticSearchBean $bean):bool
+    public function existsDocument(ElasticSearchBean $bean): bool
     {
         return $this->model->existsSource([
             'index' => $bean->index ?? $this->model->index ?? $bean->alias,
-            'id' => $bean->id
+            'id' => $bean->id,
         ]);
     }
 
     /**
-     * @NormalizeGet()
-     * @param ElasticSearchBean $bean
-     * @return array
+     * @NormalizeGet
      */
-    public function getDocument(ElasticSearchBean $bean):array
+    public function getDocument(ElasticSearchBean $bean): array
     {
         $parameters = [
             'index' => $bean->index ?? $this->model->index ?? $bean->alias,
-            'id' => $bean->id
+            'id' => $bean->id,
         ];
 
         return $this->model->get($parameters);
     }
 
     /**
-     * @NormalizeGet()
-     * @param ElasticSearchBean $bean
-     * @return array
+     * @NormalizeGet
      */
-    public function getMultiDocuments(ElasticSearchBean $bean):array
+    public function getMultiDocuments(ElasticSearchBean $bean): array
     {
         $parameters = [
             'index' => $bean->index ?? $this->model->index ?? $bean->alias,
             'body' => [
                 'size' => $this->model->configurations['max_doc'],
                 'query' => [
-                    'match_all' => new \stdClass()
-                ]
-            ]
+                    'match_all' => new \stdClass(),
+                ],
+            ],
         ];
 
         return $this->model->search($parameters);
